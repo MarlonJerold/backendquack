@@ -7,28 +7,13 @@ Este é um aplicativo para gestão financeira projetado para ajudar os usuários
 - **Controle de Despesas e Receitas:** Registre suas despesas e receitas de forma fácil e rápida.
 - **Orçamentos Personalizados:** Defina orçamentos personalizados para diferentes categorias de gastos.
 - **Relatórios Detalhados:** Visualize relatórios detalhados de suas transações e desempenho financeiro.
-- **Lembretes e Notificações:** Receba lembretes e notificações para datas de vencimento de contas e orçamentos.
-- **Segurança:** Mantenha seus dados financeiros seguros com autenticação e criptografia robustas.
+- **Cadastro de cartões:** Mantenha seus Cartões e visualize seus limetes disponíveis.
+- **Transferência:** Realização de transferências internas entre contas.
 
 ## Vídeos Demonstrativos
 
-### Tutorial de Uso Básico
+### Login
 
-Neste vídeo, você aprenderá a usar as funcionalidades básicas do aplicativo, como adicionar transações, configurar orçamentos e visualizar relatórios.
+[Gravação de tela de 2024-04-29 18-57-49.webm](https://github.com/MarlonJerold/backendquack/assets/63025001/f308a30d-dcdd-4882-a694-5904c9c9eca6)
 
-### Configuração de Orçamentos Personalizados
-
-[![Configuração de Orçamentos Personalizados](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
-
-Este vídeo mostra como configurar orçamentos personalizados para categorias específicas de despesas e receber notificações quando você exceder o limite.
-
-## Como Contribuir
-
-Se você deseja contribuir para o desenvolvimento do aplicativo, siga estas etapas:
-
-1. Faça um fork do repositório.
-2. Clone o fork para o seu ambiente de desenvolvimento.
-3. Implemente suas melhorias ou correções de bugs.
-4. Envie um pull request para revisão.
-
-Agradecemos sua contribuição!
+Estou utilizando Flutter para o Mobile, e Java com Spring Boot para o backend, o login está sendo realizado via API, com a criação de sistema de autenticação utilizando Spring Security, com JWT.
