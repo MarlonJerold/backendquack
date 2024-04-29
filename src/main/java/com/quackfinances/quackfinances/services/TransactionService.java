@@ -9,6 +9,9 @@ import com.quackfinances.quackfinances.model.TransactionType;
 import com.quackfinances.quackfinances.repository.AccountRepository;
 import com.quackfinances.quackfinances.repository.TransactionRepository;
 import com.quackfinances.quackfinances.repository.UserRepository;
+import com.quackfinances.quackfinances.services.strategy.ExpenseTransactionStrategy;
+import com.quackfinances.quackfinances.services.strategy.TransactionStrategy;
+import com.quackfinances.quackfinances.services.strategy.TransferTransactionStrategy;
 import com.quackfinances.quackfinances.utils.DateTimeUtils;
 import com.quackfinances.quackfinances.view.controller.dto.*;
 import org.springframework.http.HttpStatus;
@@ -87,6 +90,7 @@ public class TransactionService {
     public Object transaction (TransactionModel transactionModel) throws Exception, AccountNotFoundException, PermissionDeniedException, InsufficientBalanceException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<Account> sourceAccount = repository.findById(transactionModel.getSourceAccount());
+        TransactionStrategy transactionStrategy = new TransferTransactionStrategy();
 
         try {
             if (sourceAccount.isEmpty()) throw new AccountNotFoundException();
@@ -94,44 +98,28 @@ public class TransactionService {
             if (!sourceAccount.get().getUser().getEmail().equals(authentication.getName())) throw new PermissionDeniedException();
 
             if (transactionModel.getTransactionType() == TransactionType.TRANSFER) {
-                Optional<Account> destinationAccount = repository.findById(transactionModel.getDestinationAccount());
-
-                if (destinationAccount.isEmpty()) throw new AccountNotFoundException();
-                if (transactionModel.getValue().compareTo(sourceAccount.get().getValue()) > 0) throw new InsufficientBalanceException();
-
-                sourceAccount.get().setValue(sourceAccount.get().getValue().subtract(transactionModel.getValue()));
-                destinationAccount.get().setValue(destinationAccount.get().getValue().add(transactionModel.getValue()));
-
-                repository.save(destinationAccount.get());
-                transactionRepository.save(transactionModel);
-                Account accountSave = repository.save(sourceAccount.get());
-
-                AccountUserLoginDTO accountSaveDTO = new AccountUserLoginDTO(
-                        accountSave.getId(),
-                        accountSave.getName(),
-                        accountSave.getValue(),
-                        accountSave.getCreateDate().toString(),
-                        accountSave.getType()
-                );
-
-                return ResponseEntity.status(HttpStatus.CREATED).body(accountSaveDTO);
+                transactionStrategy = new TransferTransactionStrategy();
             }
+
             if (transactionModel.getTransactionType() == TransactionType.EXPENSE) {
                 if (sourceAccount.isPresent() && sourceAccount.get().getUser() != null && sourceAccount.get().getUser().getEmail().equals(authentication.getName())) {
-                    TransactionDTO transactionDTO = transactionExpense(transactionModel);
-                    return ResponseEntity.ok(transactionDTO);
+
+                    ExpenseTransactionStrategy expenseTransactionStrategy;
+                    expenseTransactionStrategy = new  ExpenseTransactionStrategy(categoryService);
+                    return expenseTransactionStrategy.execute(transactionModel, authentication, repository, transactionRepository, categoryService);
 
                 } else {
                     throw new Exception("ID da conta não faz parte das contas do usuário");
                 }
             }
+            return transactionStrategy.execute(transactionModel, authentication, repository, transactionRepository, categoryService);
+
         } catch (AccountNotFoundException | PermissionDeniedException | InsufficientBalanceException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro durante a transação");
         }
-        return null;
     }
 
     public Optional<AccountTransferResponseDTO> getAccountTransferResponseDTOById(Integer accountId) {
