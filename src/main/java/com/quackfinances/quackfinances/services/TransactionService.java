@@ -9,11 +9,13 @@ import com.quackfinances.quackfinances.model.TransactionType;
 import com.quackfinances.quackfinances.repository.AccountRepository;
 import com.quackfinances.quackfinances.repository.TransactionRepository;
 import com.quackfinances.quackfinances.repository.UserRepository;
+import com.quackfinances.quackfinances.services.service.AccountServiceInterface;
 import com.quackfinances.quackfinances.services.strategy.ExpenseTransactionStrategy;
 import com.quackfinances.quackfinances.services.strategy.TransactionStrategy;
 import com.quackfinances.quackfinances.services.strategy.TransferTransactionStrategy;
 import com.quackfinances.quackfinances.utils.DateTimeUtils;
 import com.quackfinances.quackfinances.view.controller.dto.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,13 +35,15 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final AccountRepository repository;
-    private final AccountService accountService;
+
+    @Autowired(required = false)
+    private AccountServiceInterface accountService;
+
     private final CategoryService categoryService;
 
-    public TransactionService(TransactionRepository transactionRepository, AccountRepository repository, AccountService accountService, CategoryService categoryService) {
+    public TransactionService(TransactionRepository transactionRepository, AccountRepository repository, CategoryService categoryService) {
         this.transactionRepository = transactionRepository;
         this.repository = repository;
-        this.accountService = accountService;
         this.categoryService = categoryService;
     }
 

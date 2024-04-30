@@ -2,16 +2,13 @@ package com.quackfinances.quackfinances.view.controller;
 
 import com.quackfinances.quackfinances.model.Account;
 import com.quackfinances.quackfinances.model.TransactionModel;
-import com.quackfinances.quackfinances.model.TransactionType;
 import com.quackfinances.quackfinances.repository.AccountRepository;
 import com.quackfinances.quackfinances.repository.TransactionRepository;
 import com.quackfinances.quackfinances.repository.UserRepository;
-import com.quackfinances.quackfinances.services.AccountService;
 import com.quackfinances.quackfinances.services.TransactionService;
+import com.quackfinances.quackfinances.services.service.AccountServiceInterface;
 import com.quackfinances.quackfinances.view.controller.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,17 +24,19 @@ public class TransactionController {
     private final TransactionRepository transactionRepository;
     private final AccountRepository repository;
     private final UserRepository userRepository;
-    private final AccountService accountService;
+
+    @Autowired(required = false)
+    private AccountServiceInterface accountService;
+
     private final TransactionService transactionService;
 
     private List<Account> accountList = Collections.synchronizedList(new ArrayList<>());
 
     @Autowired
-    public TransactionController(TransactionRepository transactionRepository, AccountRepository repository, UserRepository userRepository, AccountService accountService, TransactionService transactionService) {
+    public TransactionController(TransactionRepository transactionRepository, AccountRepository repository, UserRepository userRepository, TransactionService transactionService) {
         this.transactionRepository = transactionRepository;
         this.repository = repository;
         this.userRepository = userRepository;
-        this.accountService = accountService;
         this.transactionService = transactionService;
     }
 
