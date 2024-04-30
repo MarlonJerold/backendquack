@@ -12,7 +12,6 @@ import java.util.List;
 public interface AccountServiceInterface {
 
     List<AccountUserLoginDTO> getAccountUserLogin();
-
     List<Account> getAll();
     Account createAccount(AccountCreateDTO account);
 
