@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.security.core.userdetails.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -33,15 +30,19 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Column(name = "amount")
     private BigDecimal value;
 
     @CreationTimestamp
     private LocalDateTime createDate;
-
+    @Column(name = "card_name")
     private String cardName;
+
+    @Column(name = "amount_used")
     private BigDecimal valueUsed;
 
     @LastModifiedDate
+    @Column(name = "update_date")
     private LocalDateTime updateData;
     private CardType cardType;
 

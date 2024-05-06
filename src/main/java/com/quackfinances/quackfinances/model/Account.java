@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.quackfinances.quackfinances.view.controller.dto.AccountUserLoginDTO;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.apache.catalina.User;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
@@ -21,8 +19,11 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    @Column(name = "amount")
     private BigDecimal value;
+    @Column(name = "create_date")
     private Timestamp createDate;
+    @Column(name = "update_date")
     private Date updateData;
     private AccountType type;
 
