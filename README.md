@@ -18,6 +18,7 @@
 - [**Arquitetura Geral**](#arquitetura-geral)
   - [**Componentes Principais**](#componentes-principais)
   - [**Fluxo de Funcionamento**](#fluxo-de-funcionamento)
+- [**Processo de desenvolvimento**](#processo-de-desenvolvimento)
  
 ## Recursos Principais
 
@@ -70,3 +71,19 @@ O sistema será uma API REST baseada em princípios de orientação a objetos e 
 - 3 O Serviço executa a lógica de negócios necessária, possivelmente utilizando diferentes estratégias conforme implementado pelo padrão Strategy.
 - 4 O Serviço pode interagir com os Repositórios para acessar ou modificar dados no banco de dados.
 - 5 Se necessário, os dados são convertidos em DTOs para serem enviados de volta ao cliente.
+
+## Processo de desenvolvimento
+
+O sistema veio com a necessidade minha de ajustar minhas despesas pessoas, e junto com a necessidade de várias pessoas em minha volta, dei início ao projeto criando um protótipo de baixa fidelidade no figma em seguida de alta fidelidade o linkd é [Figma](https://www.figma.com/file/jo9J4yQd5JDAaGcqWEPQow/Untitled?type=design&node-id=0-1&mode=design&t=qLfASTdTKsndbC27-0).
+
+<img src="https://github.com/MarlonJerold/backendquack/assets/63025001/0d66ee42-b56d-4c5a-8d00-e9016bbd49d1" alt="sua imagem" width="300"/>
+
+Depois do protótipo pronto, dei início ao desenvolvimento mobile, enquanto mapeava as primeiras telas, comecei a criar o backend. Feito algumas telas, realizei uma pesquisa na internet, onde obtive mais de 100 pessoas interessadas em utilizar um aplicativo de finanças pessoais, armazenei em um formulário no [Google Forms](https://docs.google.com/forms/d/117vmQ1WlsruxiFLah2dq90qXcvnDWjWYGkGxZlU_Yk4/edit), ao acessar, você verá as perguntas que realizei, nelas recebi feadbacks de pessoas que se interessam e mandaram sujestões que estão sendo válidas. Nesse cenário, estou buscando entender o comportamento e as dores dos usuários visando trazer uma melhor qualidade no aplicativo.
+
+### Metas
+
+Tornar o aplicativo disponível na play store para consumo público, ainda faltam muitas coisas, mas está sendo uma experiência muito gratificante e espero finaliza-lo logo.
+Até mais
+
+Atenciosamente,
+- Marlon, o Pato.
