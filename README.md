@@ -78,7 +78,7 @@ O sistema veio com a necessidade minha de ajustar minhas despesas pessoas, e jun
 
 <img src="https://github.com/MarlonJerold/backendquack/assets/63025001/0d66ee42-b56d-4c5a-8d00-e9016bbd49d1" alt="sua imagem" width="300"/>
 
-Depois do protótipo pronto, dei início ao desenvolvimento mobile, enquanto mapeava as primeiras telas, comecei a criar o backend. Feito algumas telas, realizei uma pesquisa na internet, onde obtive mais de 100 pessoas interessadas em utilizar um aplicativo de finanças pessoais, armazenei em um formulário no [Google Forms](https://docs.google.com/forms/d/117vmQ1WlsruxiFLah2dq90qXcvnDWjWYGkGxZlU_Yk4/edit), ao acessar, você verá as perguntas que realizei, nelas recebi feadbacks de pessoas que se interessam e mandaram sujestões que estão sendo válidas. Nesse cenário, estou buscando entender o comportamento e as dores dos usuários visando trazer uma melhor qualidade no aplicativo.
+Depois do protótipo pronto, dei início ao desenvolvimento mobile. Enquanto mapeava as primeiras telas, comecei a criar o backend. Após desenvolver algumas telas, realizei uma pesquisa na internet, onde obtive mais de 100 pessoas interessadas em utilizar um aplicativo de finanças pessoais. Armazenei essas informações em um formulário no [Google Forms](https://docs.google.com/forms/d/117vmQ1WlsruxiFLah2dq90qXcvnDWjWYGkGxZlU_Yk4/edit). Ao acessar, você verá as perguntas que realizei. Através delas, recebi feedbacks de pessoas interessadas e sugestões valiosas que estão sendo consideradas. Nesse cenário, estou buscando compreender o comportamento e as dores dos usuários, visando oferecer uma melhor qualidade no aplicativo.
 
 ### Metas
 
