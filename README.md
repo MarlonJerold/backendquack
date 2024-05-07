@@ -9,8 +9,10 @@ Este é um aplicativo para gestão financeira projetado para ajudar os usuários
 - [**Stack que estou utilizando**](#stack-que-estou-utilizando)
   - [**Backend**](#backend)
   - [**Mobile**](#mobile)
-
-
+- [**Arquitetura Geral**](#arquitetura-geral)
+  - [**Componentes Principais**](#componentes-principais)
+  - [**Fluxo de Funcionamento**](#fluxo-de-funcionamento)
+ 
 ## Recursos Principais
 
 - 💸 Controle de Despesas e Receitas: Registre suas despesas e receitas de forma fácil e rápida.
@@ -45,4 +47,28 @@ O projeto está sendo uma API REST, estou utilizando principios de orientação 
 - [![Dart](https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white)](https://dart.dev/)
 - [![Flutter](https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white)](https://flutter.dev/)
 
-  
+## Arquitetura Geral:
+O sistema será uma API REST baseada em princípios de orientação a objetos e implementará o padrão de projeto Strategy para flexibilidade e extensibilidade. A persistência de dados será realizada usando JPA para mapeamento objeto-relacional e Hibernate como provedor JPA.
+
+### Componentes Principais:
+#### Controladores (Controllers):
+Responsáveis por receber as requisições HTTP e roteá-las para os serviços apropriados.
+#### Serviços (Services):
+Implementam a lógica de negócios.
+Utilizam o padrão Strategy para permitir diferentes estratégias de processamento.
+#### Repositórios (Repositories):
+Interfaces que definem operações de acesso a dados.
+Implementadas com JPA para interagir com o banco de dados.
+####  Entidades (Entities):
+Modelam os dados do domínio.
+Anotadas com JPA para mapeamento com as tabelas do banco de dados.
+####  DTOs (Data Transfer Objects):
+Representam os objetos que serão transferidos entre a API e o cliente.
+Podem ser usados para desacoplar a estrutura dos dados expostos pela API da estrutura interna das entidades.
+
+### Fluxo de Funcionamento:
+- 1 O cliente envia uma requisição HTTP para a API.
+- 2 O Controlador recebe a requisição e a roteia para o Serviço apropriado.
+- 3 O Serviço executa a lógica de negócios necessária, possivelmente utilizando diferentes estratégias conforme implementado pelo padrão Strategy.
+- 4 O Serviço pode interagir com os Repositórios para acessar ou modificar dados no banco de dados.
+- 5 Se necessário, os dados são convertidos em DTOs para serem enviados de volta ao cliente.
