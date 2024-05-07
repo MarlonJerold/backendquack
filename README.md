@@ -83,7 +83,7 @@ Depois do protótipo pronto, dei início ao desenvolvimento mobile, enquanto map
 ### Metas
 
 Tornar o aplicativo disponível na play store para consumo público, ainda faltam muitas coisas, mas está sendo uma experiência muito gratificante e espero finaliza-lo logo.
-Até mais
+Até mais!
 
 Atenciosamente,
-- Marlon, o Pato.
+*Marlon, o Pato.*
