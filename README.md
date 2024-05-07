@@ -1,6 +1,12 @@
 # Aplicativo de Gestão Financeira 📱 🏦 💳 
 
-Este é um aplicativo para gestão financeira projetado para ajudar os usuários a controlar suas finanças de forma eficaz.
+*Este aplicativo oferece uma solução abrangente para gestão financeira pessoal. Com ele, os usuários podem registrar suas despesas e receitas de forma simples e rápida. Além disso, é possível definir orçamentos personalizados para diferentes categorias de gastos, ajudando a manter o controle financeiro*.
+
+*A ferramenta também disponibiliza relatórios detalhados das transações realizadas e do desempenho financeiro do usuário ao longo do tempo. Isso proporciona uma visão clara da situação financeira e auxilia na tomada de decisões*.
+
+*Para facilitar ainda mais a administração financeira, o aplicativo permite o cadastro de cartões, onde os usuários podem visualizar os limites disponíveis e acompanhar os gastos realizados*.
+
+*Além disso, a funcionalidade de transferência facilita a movimentação de recursos entre contas internas, proporcionando maior flexibilidade e controle sobre o dinheiro*.
 
 # Tópicos
 
