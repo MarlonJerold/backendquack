@@ -13,11 +13,11 @@ Este é um aplicativo para gestão financeira projetado para ajudar os usuários
 
 ## Recursos Principais
 
-- **Controle de Despesas e Receitas:** Registre suas despesas e receitas de forma fácil e rápida.
-- **Orçamentos Personalizados:** Defina orçamentos personalizados para diferentes categorias de gastos.
-- **Relatórios Detalhados:** Visualize relatórios detalhados de suas transações e desempenho financeiro.
-- **Cadastro de cartões:** Mantenha seus Cartões e visualize seus limetes disponíveis.
-- **Transferência:** Realização de transferências internas entre contas.
+- 💸 Controle de Despesas e Receitas: Registre suas despesas e receitas de forma fácil e rápida.
+- 📊 Orçamentos Personalizados: Defina orçamentos personalizados para diferentes categorias de gastos.
+- 📈 Relatórios Detalhados: Visualize relatórios detalhados de suas transações e desempenho financeiro.
+- 💳 Cadastro de cartões: Mantenha seus Cartões e visualize seus limites disponíveis.
+- 🔄 Transferência: Realização de transferências internas entre contas.
 
 ## Vídeos Demonstrativos
 
