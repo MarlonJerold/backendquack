@@ -85,5 +85,7 @@ Depois do protótipo pronto, dei início ao desenvolvimento mobile. Enquanto map
 Tornar o aplicativo disponível na play store para consumo público, ainda faltam muitas coisas, mas está sendo uma experiência muito gratificante e espero finaliza-lo logo.
 Até mais!
 
+> "Quando todos têm acesso à gestão financeira, todos têm a oportunidade de alcançar a independência financeira." - Dave Ramsey
+
 Atenciosamente,
 *Marlon, o Pato.*
