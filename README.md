@@ -74,7 +74,7 @@ O sistema será uma API REST baseada em princípios de orientação a objetos e 
 
 ## Processo de desenvolvimento
 
-O sistema veio com a necessidade minha de ajustar minhas despesas pessoas, e junto com a necessidade de várias pessoas em minha volta, dei início ao projeto criando um protótipo de baixa fidelidade no figma em seguida de alta fidelidade o linkd é [Figma](https://www.figma.com/file/jo9J4yQd5JDAaGcqWEPQow/Untitled?type=design&node-id=0-1&mode=design&t=qLfASTdTKsndbC27-0).
+O sistema veio com a necessidade minha de ajustar minhas despesas pessoas, e junto com a necessidade de várias pessoas em minha volta, dei início ao projeto criando um protótipo de baixa fidelidade no figma em seguida de alta fidelidade o link é [Figma](https://www.figma.com/file/jo9J4yQd5JDAaGcqWEPQow/Untitled?type=design&node-id=0-1&mode=design&t=qLfASTdTKsndbC27-0).
 
 <img src="https://github.com/MarlonJerold/backendquack/assets/63025001/0d66ee42-b56d-4c5a-8d00-e9016bbd49d1" alt="sua imagem" width="300"/>
 
