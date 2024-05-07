@@ -52,19 +52,19 @@ O sistema será uma API REST baseada em princípios de orientação a objetos e 
 
 ### Componentes Principais:
 #### Controladores (Controllers):
-Responsáveis por receber as requisições HTTP e roteá-las para os serviços apropriados.
+- Responsáveis por receber as requisições HTTP e roteá-las para os serviços apropriados.
 #### Serviços (Services):
-Implementam a lógica de negócios.
-Utilizam o padrão Strategy para permitir diferentes estratégias de processamento.
+- Implementam a lógica de negócios.
+- Utilizam o padrão Strategy para permitir diferentes estratégias de processamento.
 #### Repositórios (Repositories):
-Interfaces que definem operações de acesso a dados.
-Implementadas com JPA para interagir com o banco de dados.
+- Interfaces que definem operações de acesso a dados.
+- Implementadas com JPA para interagir com o banco de dados.
 ####  Entidades (Entities):
-Modelam os dados do domínio.
-Anotadas com JPA para mapeamento com as tabelas do banco de dados.
+- Modelam os dados do domínio.
+- Anotadas com JPA para mapeamento com as tabelas do banco de dados.
 ####  DTOs (Data Transfer Objects):
-Representam os objetos que serão transferidos entre a API e o cliente.
-Podem ser usados para desacoplar a estrutura dos dados expostos pela API da estrutura interna das entidades.
+- Representam os objetos que serão transferidos entre a API e o cliente.
+- Podem ser usados para desacoplar a estrutura dos dados expostos pela API da estrutura interna das entidades.
 
 ### Fluxo de Funcionamento:
 - 1 O cliente envia uma requisição HTTP para a API.
