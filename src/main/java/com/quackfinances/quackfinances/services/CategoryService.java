@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @Service
 public class CategoryService {
+
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
@@ -42,7 +43,6 @@ public class CategoryService {
                     categorySave.categoriaName(),
                     categorySave.transactionType().toString()
             );
-
             return response;
         }
         return null;
@@ -51,7 +51,6 @@ public class CategoryService {
     public List<CategoryRequestDTO> getCategory() {
 
         List<CategoryModel> categoryModelList = categoryRepository.findAll();
-
         List<CategoryRequestDTO> categoryRequestDTOS = new ArrayList<>();
 
         for (CategoryModel categoryModel : categoryModelList) {
@@ -61,7 +60,6 @@ public class CategoryService {
             );
             categoryRequestDTOS.add(categoryRequestDTO);
         }
-
         return categoryRequestDTOS;
     }
 
