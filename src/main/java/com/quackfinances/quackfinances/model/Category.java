@@ -1,7 +1,7 @@
 package com.quackfinances.quackfinances.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.quackfinances.quackfinances.enums.TransactionType;
+import com.quackfinances.quackfinances.enums.TransactionEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,18 +10,18 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity(name = "category")
-public class CategoryModel {
+public class Category {
 
-    public CategoryModel(String categoriaName, LocalDateTime createDate, Integer id, LocalDateTime updateData, TransactionType transactionType, UserModel user) {
+    public Category(String categoriaName, LocalDateTime createDate, Integer id, LocalDateTime updateData, TransactionEnum transactionEnum, User user) {
         this.categoriaName = categoriaName;
         this.createDate = createDate;
         this.id = id;
         this.updateData = updateData;
-        this.transactionType = transactionType;
+        this.transactionEnum = transactionEnum;
         this.user = user;
     }
 
-    public CategoryModel() {}
+    public Category() {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,18 +31,18 @@ public class CategoryModel {
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime updateData;
-    private TransactionType transactionType;
+    private TransactionEnum transactionEnum;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private UserModel user;
+    private User user;
 
-    public TransactionType transactionType() {
-        return transactionType;
+    public TransactionEnum transactionType() {
+        return transactionEnum;
     }
 
-    public void setTransactionType(TransactionType transactionType) {
-        this.transactionType = transactionType;
+    public void setTransactionEnum(TransactionEnum transactionEnum) {
+        this.transactionEnum = transactionEnum;
     }
 
     public Integer id() {
@@ -77,11 +77,11 @@ public class CategoryModel {
         this.updateData = updateData;
     }
 
-    public UserModel getUser() {
+    public User getUser() {
         return user;
     }
 
-    public CategoryModel setUser(UserModel user) {
+    public Category setUser(User user) {
         this.user = user;
         return this;
     }

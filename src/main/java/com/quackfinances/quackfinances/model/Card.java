@@ -1,7 +1,7 @@
 package com.quackfinances.quackfinances.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.quackfinances.quackfinances.enums.CardType;
+import com.quackfinances.quackfinances.enums.CardEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Entity(name = "card")
 public class Card {
 
-    public Card(CardType cardType, LocalDateTime createDate, Integer id, LocalDateTime updateData, BigDecimal value, BigDecimal valueUsed, String cardName, UserModel user, String bankName) {
-        this.cardType = cardType;
+    public Card(CardEnum cardEnum, LocalDateTime createDate, Integer id, LocalDateTime updateData, BigDecimal value, BigDecimal valueUsed, String cardName, User user, String bankName) {
+        this.cardEnum = cardEnum;
         this.createDate = createDate;
         this.id = id;
         this.updateData = updateData;
@@ -46,12 +46,12 @@ public class Card {
     @LastModifiedDate
     @Column(name = "update_date")
     private LocalDateTime updateData;
-    private CardType cardType;
+    private CardEnum cardEnum;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private UserModel user;
+    private User user;
 
     private String bankName;
 
@@ -65,11 +65,11 @@ public class Card {
     }
 
 
-    public UserModel getUser() {
+    public User getUser() {
         return user;
     }
 
-    public Card setUser(UserModel user) {
+    public Card setUser(User user) {
         this.user = user;
         return this;
     }
@@ -110,8 +110,8 @@ public class Card {
         return this;
     }
 
-    public CardType getCardType() {
-        return cardType;
+    public CardEnum getCardEnum() {
+        return cardEnum;
     }
 
     public String getCardName() {
@@ -132,8 +132,8 @@ public class Card {
         return this;
     }
 
-    public Card setCardType(CardType cardType) {
-        this.cardType = cardType;
+    public Card setCardEnum(CardEnum cardEnum) {
+        this.cardEnum = cardEnum;
         return this;
     }
 

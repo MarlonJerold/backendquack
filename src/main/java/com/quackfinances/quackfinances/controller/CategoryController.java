@@ -1,22 +1,19 @@
 package com.quackfinances.quackfinances.controller;
 
-import com.quackfinances.quackfinances.dto.CategoryRequestDTO;
-import com.quackfinances.quackfinances.services.CategoryService;
+import com.quackfinances.quackfinances.dto.Categoty.CategoryRequestDTO;
 
+import com.quackfinances.quackfinances.services.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
-    private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    @Autowired(required = false)
+    private CategoryService categoryService;
 
     @PostMapping
     public CategoryRequestDTO createCategory(@RequestBody CategoryRequestDTO categoryRequest) {

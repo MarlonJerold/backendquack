@@ -1,15 +1,23 @@
-package com.quackfinances.quackfinances.services;
+package com.quackfinances.quackfinances.services.service.impl;
 
-import com.quackfinances.quackfinances.dto.*;
+import com.quackfinances.quackfinances.dto.Account.AccountCreateDTO;
+import com.quackfinances.quackfinances.dto.Account.AccountTransferResponseDTO;
+import com.quackfinances.quackfinances.dto.Account.AccountUserLoginDTO;
+import com.quackfinances.quackfinances.dto.Categoty.CategoryRequestDTO;
+import com.quackfinances.quackfinances.dto.Categoty.CategotyValueDTO;
+import com.quackfinances.quackfinances.dto.Transaction.TransactionDTO;
+import com.quackfinances.quackfinances.dto.Transaction.TransactionResponseDTO;
 import com.quackfinances.quackfinances.exceptions.AccountNotFoundException;
 import com.quackfinances.quackfinances.exceptions.InsufficientBalanceException;
 import com.quackfinances.quackfinances.exceptions.PermissionDeniedException;
 import com.quackfinances.quackfinances.model.Account;
-import com.quackfinances.quackfinances.model.TransactionModel;
-import com.quackfinances.quackfinances.enums.TransactionType;
+import com.quackfinances.quackfinances.enums.TransactionEnum;
+import com.quackfinances.quackfinances.model.Transaction;
 import com.quackfinances.quackfinances.repository.AccountRepository;
 import com.quackfinances.quackfinances.repository.TransactionRepository;
-import com.quackfinances.quackfinances.services.service.AccountServiceInterface;
+import com.quackfinances.quackfinances.services.service.AccountService;
+import com.quackfinances.quackfinances.services.service.CategoryService;
+import com.quackfinances.quackfinances.services.service.TransactionService;
 import com.quackfinances.quackfinances.services.strategy.ExpenseTransactionStrategy;
 import com.quackfinances.quackfinances.services.strategy.TransactionStrategy;
 import com.quackfinances.quackfinances.services.strategy.TransferTransactionStrategy;
@@ -28,36 +36,35 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class TransactionService {
+public class TransactionServiceImpl implements TransactionService {
 
-    private final TransactionRepository transactionRepository;
-    private final AccountRepository repository;
+    @Autowired
+    private TransactionRepository transactionRepository;
+    @Autowired
+    private AccountRepository repository;
 
     @Autowired(required = false)
-    private AccountServiceInterface accountService;
-    private final CategoryService categoryService;
+    private AccountService accountService;
+    @Autowired
+    private CategoryService categoryService;
+
     private List<Account> accountList = Collections.synchronizedList(new ArrayList<>());
 
-    public TransactionService(TransactionRepository transactionRepository, AccountRepository repository, CategoryService categoryService) {
-        this.transactionRepository = transactionRepository;
-        this.repository = repository;
-        this.categoryService = categoryService;
-    }
-
+    @Override
     public List<TransactionResponseDTO> getListTransactions() {
         List<AccountUserLoginDTO> accountListLogin = accountService.getAccountUserLogin();
-        List<List<Optional<TransactionModel>>> transactionsPerAccount = new ArrayList<>();
+        List<List<Optional<com.quackfinances.quackfinances.model.Transaction>>> transactionsPerAccount = new ArrayList<>();
 
         for (AccountUserLoginDTO account : accountListLogin) {
-            List<Optional<TransactionModel>> transactions = transactionRepository.findBySourceAccountId(account.id());
+            List<Optional<com.quackfinances.quackfinances.model.Transaction>> transactions = transactionRepository.findBySourceAccountId(account.id());
             transactionsPerAccount.add(transactions);
         }
 
         List<List<TransactionResponseDTO>> retorno = new ArrayList<>();
 
-        for (List<Optional<TransactionModel>> transactions : transactionsPerAccount) {
+        for (List<Optional<Transaction>> transactions : transactionsPerAccount) {
             List<TransactionResponseDTO> transactionsDTO = new ArrayList<>();
-            for (Optional<TransactionModel> transaction : transactions) {
+            for (Optional<com.quackfinances.quackfinances.model.Transaction> transaction : transactions) {
 
                 Optional<AccountTransferResponseDTO> sourceAccountDTO = getAccountTransferResponseDTOById(transaction.get().getSourceAccount());
                 Optional<AccountTransferResponseDTO> destinationAccountDTO = getAccountTransferResponseDTOById(transaction.get().getDestinationAccountId());
@@ -68,7 +75,7 @@ public class TransactionService {
                 TransactionResponseDTO transactionDTO = new TransactionResponseDTO(
                         transaction.get().getDescription(),
                         transaction.get().getValue(),
-                        transaction.get().getTransactionType(),
+                        transaction.get().getTransactionEnum(),
                         transaction.get().getIdentifier(),
                         sourceAccountDTO,
                         destinationAccountDTO,
@@ -86,11 +93,11 @@ public class TransactionService {
         return flatList;
     }
 
-
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public Object transaction(TransactionModel transactionModel) throws Exception, AccountNotFoundException, PermissionDeniedException, InsufficientBalanceException {
+    public Object transaction( Transaction transaction ) throws Exception, AccountNotFoundException, PermissionDeniedException, InsufficientBalanceException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Optional<Account> sourceAccount = repository.findById(transactionModel.getSourceAccount());
+        Optional<Account> sourceAccount = repository.findById(transaction.getSourceAccount());
         TransactionStrategy transactionStrategy = new TransferTransactionStrategy();
 
         try {
@@ -98,21 +105,21 @@ public class TransactionService {
 
             if (!sourceAccount.get().getUser().getEmail().equals(authentication.getName())) throw new PermissionDeniedException();
 
-            if (transactionModel.getTransactionType() == TransactionType.TRANSFER) {
+            if (transaction.getTransactionEnum() == TransactionEnum.TRANSFER) {
                 transactionStrategy = new TransferTransactionStrategy();
             }
 
-            if (transactionModel.getTransactionType() == TransactionType.EXPENSE) {
+            if (transaction.getTransactionEnum() == TransactionEnum.EXPENSE) {
                 if (sourceAccount.isPresent() && sourceAccount.get().getUser() != null && sourceAccount.get().getUser().getEmail().equals(authentication.getName())) {
                     ExpenseTransactionStrategy expenseTransactionStrategy;
                     expenseTransactionStrategy = new  ExpenseTransactionStrategy(categoryService);
-                    return expenseTransactionStrategy.execute(transactionModel, authentication, repository, transactionRepository, categoryService);
+                    return expenseTransactionStrategy.execute(transaction, authentication, repository, transactionRepository, categoryService);
 
                 } else {
                     throw new Exception("ID da conta não faz parte das contas do usuário");
                 }
             }
-            return transactionStrategy.execute(transactionModel, authentication, repository, transactionRepository, categoryService);
+            return transactionStrategy.execute(transaction, authentication, repository, transactionRepository, categoryService);
 
         } catch (AccountNotFoundException | PermissionDeniedException | InsufficientBalanceException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -122,6 +129,7 @@ public class TransactionService {
         }
     }
 
+    @Override
     public Optional<AccountTransferResponseDTO> getAccountTransferResponseDTOById(Integer accountId) {
         Optional<Account> accountOptional = repository.findById(accountId);
         return accountOptional.map(account ->
@@ -129,24 +137,25 @@ public class TransactionService {
         );
     }
 
-    public TransactionDTO transactionExpense(TransactionModel transactionModel) {
+    @Override
+    public TransactionDTO transactionExpense(Transaction transaction) {
 
-        Optional<Account> sourceAccount = repository.findById(transactionModel.getSourceAccount());
+        Optional<Account> sourceAccount = repository.findById(transaction.getSourceAccount());
 
         List<CategoryRequestDTO> categoryRequestDTOList = categoryService.getCategory();
 
         for (CategoryRequestDTO categoryRequestDTO: categoryRequestDTOList ) {
-            if (transactionModel.getCategory().toString().equals(categoryRequestDTO.categoryName())) {
+            if (transaction.getCategory().toString().equals(categoryRequestDTO.categoryName())) {
                 Account accountNewValue = sourceAccount.get();
                 BigDecimal accountValues = accountNewValue.getValue();
-                BigDecimal requestValue = transactionModel.getValue();
+                BigDecimal requestValue = transaction.getValue();
 
                 BigDecimal newSourceAccountValue = accountValues.subtract(requestValue);
                 accountNewValue.setValue(newSourceAccountValue);
 
                 repository.save(accountNewValue);
 
-                TransactionModel transacation = transactionRepository.save(transactionModel);
+                com.quackfinances.quackfinances.model.Transaction transacation = transactionRepository.save(transaction);
                 Optional<Account> sourceAccountTransaction =  repository.findById(transacation.getSourceAccount());
 
                 Optional<AccountCreateDTO> sourceAccountTransactionDTO = Optional.of(new AccountCreateDTO(
@@ -158,7 +167,7 @@ public class TransactionService {
                 TransactionDTO transactionDTO = new TransactionDTO(
                         transacation.getDescription(),
                         transacation.getValue(),
-                        transacation.getTransactionType(),
+                        transacation.getTransactionEnum(),
                         transacation.getIdentifier(),
                         sourceAccountTransactionDTO
                 );
@@ -167,6 +176,7 @@ public class TransactionService {
         } return null;
     }
 
+    @Override
     public BigDecimal totalAccountValue() {
         BigDecimal totalValue = BigDecimal.ZERO;
         List<Account> accounts;
@@ -182,22 +192,22 @@ public class TransactionService {
         return totalValue;
     }
 
+    @Override
     public List<CategotyValueDTO> consultegoriaCatedoriasValue () {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userId = authentication.getName();
-
         List<AccountUserLoginDTO> accountListLogin = accountService.getAccountUserLogin();
 
-        List<List<Optional<TransactionModel>>> transactionsPerAccount = new ArrayList<>();
+        List<List<Optional<Transaction>>> transactionsPerAccount = new ArrayList<>();
+
         for (AccountUserLoginDTO account : accountListLogin) {
-            List<Optional<TransactionModel>> transactions = transactionRepository.findBySourceAccountId(account.id());
+            List<Optional<Transaction>> transactions = transactionRepository.findBySourceAccountId(account.id());
             transactionsPerAccount.add(transactions);
         }
 
         Map<String, BigDecimal> categoryTotals = new HashMap<>();
 
-        for (List<Optional<TransactionModel>> transactionsPerAccounts : transactionsPerAccount) {
-            for (Optional<TransactionModel> transaction : transactionsPerAccounts) {
+        for (List<Optional<Transaction>> transactionsPerAccounts : transactionsPerAccount) {
+            for (Optional<Transaction> transaction : transactionsPerAccounts) {
                 if (transaction.isPresent()) {
                     String category = transaction.get().getCategory();
                     BigDecimal valorTranscao = transaction.get().getValue();
@@ -208,16 +218,15 @@ public class TransactionService {
             }
         }
 
-        List<TransactionModel> categoryTransactions = new ArrayList<>();
+        List<Transaction> categoryTransactions = new ArrayList<>();
         for (Map.Entry<String, BigDecimal> entry : categoryTotals.entrySet()) {
-            TransactionModel categoryTransaction = new TransactionModel(entry.getKey(), entry.getValue());
+            Transaction categoryTransaction = new Transaction(entry.getKey(), entry.getValue());
             categoryTransactions.add(categoryTransaction);
         }
 
         List<CategotyValueDTO> categotyValueDTOS = new ArrayList<>();
-        for (TransactionModel transactionModel : categoryTransactions) {
-
-            CategotyValueDTO accountDTO = new CategotyValueDTO(transactionModel.getCategory(), transactionModel.getValue().doubleValue());
+        for (Transaction transaction : categoryTransactions) {
+            CategotyValueDTO accountDTO = new CategotyValueDTO(transaction.getCategory(), transaction.getValue().doubleValue());
             categotyValueDTOS.add(accountDTO);
         }
         return categotyValueDTOS;

@@ -1,6 +1,6 @@
 package com.quackfinances.quackfinances.model;
 
-import com.quackfinances.quackfinances.enums.TransactionType;
+import com.quackfinances.quackfinances.enums.TransactionEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,27 +15,27 @@ import java.util.UUID;
 
 @Data
 @Entity(name = "transaction")
-public class TransactionModel implements Serializable {
+public class Transaction implements Serializable {
 
-    public TransactionModel(Integer id, String description, BigDecimal value, LocalDateTime createDate, LocalDateTime updateData, Account account, TransactionType transactionType, String identifier, Integer sourceAccountId, Integer destinationAccountId, String category ) {
+    public Transaction(Integer id, String description, BigDecimal value, LocalDateTime createDate, LocalDateTime updateData, Account account, TransactionEnum transactionEnum, String identifier, Integer sourceAccountId, Integer destinationAccountId, String category ) {
         this.id = id;
         this.description = description;
         this.value = value;
         this.createDate = createDate;
         this.updateData = updateData;
         this.account = account;
-        this.transactionType = transactionType;
+        this.transactionEnum = transactionEnum;
         this.identifier = identifier;
         this.sourceAccountId = sourceAccountId;
         this.destinationAccountId = destinationAccountId;
         this.category = category;
     }
 
-    public TransactionModel() {
+    public Transaction() {
 
     }
 
-    public TransactionModel(String category, BigDecimal value) {
+    public Transaction(String category, BigDecimal value) {
         this.category = category;
         this.value = value;
     }
@@ -62,8 +62,8 @@ public class TransactionModel implements Serializable {
     @JdbcTypeCode(SqlTypes.JSON)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_by")
-    private UserModel user;
-    private TransactionType transactionType;
+    private User user;
+    private TransactionEnum transactionEnum;
     private String identifier;
     private Integer accountId;
 
@@ -76,7 +76,7 @@ public class TransactionModel implements Serializable {
         return category;
     }
 
-    public TransactionModel setCategory(String category) {
+    public Transaction setCategory(String category) {
         this.category = category;
         return this;
     }
@@ -85,7 +85,7 @@ public class TransactionModel implements Serializable {
         return destinationAccountId;
     }
 
-    public TransactionModel setDestinationAccountId(Integer destinationAccountId) {
+    public Transaction setDestinationAccountId(Integer destinationAccountId) {
         this.destinationAccountId = destinationAccountId;
         return this;
     }
@@ -94,7 +94,7 @@ public class TransactionModel implements Serializable {
         return sourceAccountId;
     }
 
-    public TransactionModel setSourceAccountId(Integer sourceAccountId) {
+    public Transaction setSourceAccountId(Integer sourceAccountId) {
         this.sourceAccountId = sourceAccountId;
         return this;
     }
@@ -103,7 +103,7 @@ public class TransactionModel implements Serializable {
         return destinationAccountId;
     }
 
-    public TransactionModel setDestinationAccount(Integer destinationAccountId) {
+    public Transaction setDestinationAccount(Integer destinationAccountId) {
         this.destinationAccountId = destinationAccountId;
         return this;
     }
@@ -112,7 +112,7 @@ public class TransactionModel implements Serializable {
         return sourceAccountId;
     }
 
-    public TransactionModel setSourceAccount(Integer sourceAccountId) {
+    public Transaction setSourceAccount(Integer sourceAccountId) {
         this.sourceAccountId = sourceAccountId;
         return this;
     }
@@ -178,12 +178,12 @@ public class TransactionModel implements Serializable {
         this.account = account;
     }
 
-    public TransactionType getTransactionType() {
-        return transactionType;
+    public TransactionEnum getTransactionEnum() {
+        return transactionEnum;
     }
 
-    public void setTransactionType(TransactionType transactionType) {
-        this.transactionType = transactionType;
+    public void setTransactionEnum(TransactionEnum transactionEnum) {
+        this.transactionEnum = transactionEnum;
     }
 
 
@@ -195,11 +195,11 @@ public class TransactionModel implements Serializable {
         this.identifier = identifier;
     }
 
-    public UserModel getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserModel user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }

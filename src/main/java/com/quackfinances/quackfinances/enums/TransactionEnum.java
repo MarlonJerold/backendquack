@@ -1,6 +1,6 @@
 package com.quackfinances.quackfinances.enums;
 
-public enum TransactionType {
+public enum TransactionEnum {
     EXPENSE,
     INCOME,
     TRANSFER

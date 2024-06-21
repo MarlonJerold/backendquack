@@ -1,13 +1,12 @@
 package com.quackfinances.quackfinances.services.service.impl;
 
-import com.quackfinances.quackfinances.model.Card;
-import com.quackfinances.quackfinances.enums.CardType;
-import com.quackfinances.quackfinances.model.UserModel;
+import com.quackfinances.quackfinances.enums.CardEnum;
+import com.quackfinances.quackfinances.model.User;
 import com.quackfinances.quackfinances.repository.CardRepository;
 import com.quackfinances.quackfinances.repository.UserRepository;
-import com.quackfinances.quackfinances.services.service.CardServiceInterface;
-import com.quackfinances.quackfinances.dto.CardRequestDTO;
-import com.quackfinances.quackfinances.dto.CardResponseDTO;
+import com.quackfinances.quackfinances.services.service.CardService;
+import com.quackfinances.quackfinances.dto.Card.CardRequestDTO;
+import com.quackfinances.quackfinances.dto.Card.CardResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CardServiceImpl implements CardServiceInterface {
+public class CardServiceImpl implements CardService {
 
     @Autowired
     private UserRepository userRepository;
@@ -30,21 +29,21 @@ public class CardServiceImpl implements CardServiceInterface {
     public CardResponseDTO createCard(CardRequestDTO cardRequestDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String user = authentication.getName();
-        CardType accountType = CardType.valueOf (String.valueOf(cardRequestDTO.cardType()));
+        CardEnum accountType = CardEnum.valueOf (String.valueOf(cardRequestDTO.cardType()));
 
         if (cardRequestDTO != null) {
 
-            Optional<UserModel> userBusca = userRepository.findByEmail(user);
+            Optional<User> userBusca = userRepository.findByEmail(user);
 
-            Card card = new Card();
+            com.quackfinances.quackfinances.model.Card card = new com.quackfinances.quackfinances.model.Card();
             card.setCardName(cardRequestDTO.name());
-            card.setCardType(accountType);
+            card.setCardEnum(accountType);
             card.setValue(cardRequestDTO.value());
             card.setValueUsed(cardRequestDTO.valueUsed());
             card.setUser(userBusca.get());
             card.setBankaName(cardRequestDTO.bankName());
 
-            Card cardSave = cardRepository.save(card);
+            com.quackfinances.quackfinances.model.Card cardSave = cardRepository.save(card);
 
             CardResponseDTO cardDTO = new CardResponseDTO(
                     cardSave.getCardName(),
@@ -64,10 +63,10 @@ public class CardServiceImpl implements CardServiceInterface {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
 
-        List<Card> accountList = cardRepository.findAll();
-        List<Card> accounts = new ArrayList<>();
+        List<com.quackfinances.quackfinances.model.Card> accountList = cardRepository.findAll();
+        List<com.quackfinances.quackfinances.model.Card> accounts = new ArrayList<>();
 
-        for (Card card : accountList) {
+        for (com.quackfinances.quackfinances.model.Card card : accountList) {
             if (card != null && card.getUser() != null && card.getUser().getName() != null) {
                 if (card.getUser().getEmail().equals(userId)) {
                     accounts.add(card);
@@ -77,8 +76,8 @@ public class CardServiceImpl implements CardServiceInterface {
 
         List<CardResponseDTO> cardDTOs = new ArrayList<>();
 
-        for (Card card : accounts) {
-            CardResponseDTO accountDTO = new CardResponseDTO(card.getCardName(), card.getCardType().toString(), card.getValue(), card.getValueUsed(), card.getBankName());
+        for (com.quackfinances.quackfinances.model.Card card : accounts) {
+            CardResponseDTO accountDTO = new CardResponseDTO(card.getCardName(), card.getCardEnum().toString(), card.getValue(), card.getValueUsed(), card.getBankName());
             cardDTOs.add(accountDTO);
         }
 

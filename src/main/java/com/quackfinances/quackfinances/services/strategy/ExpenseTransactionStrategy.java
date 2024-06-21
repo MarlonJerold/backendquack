@@ -1,13 +1,13 @@
 package com.quackfinances.quackfinances.services.strategy;
 
 import com.quackfinances.quackfinances.model.Account;
-import com.quackfinances.quackfinances.model.TransactionModel;
+import com.quackfinances.quackfinances.model.Transaction;
 import com.quackfinances.quackfinances.repository.AccountRepository;
 import com.quackfinances.quackfinances.repository.TransactionRepository;
-import com.quackfinances.quackfinances.services.CategoryService;
-import com.quackfinances.quackfinances.dto.AccountCreateDTO;
-import com.quackfinances.quackfinances.dto.CategoryRequestDTO;
-import com.quackfinances.quackfinances.dto.TransactionDTO;
+import com.quackfinances.quackfinances.dto.Account.AccountCreateDTO;
+import com.quackfinances.quackfinances.dto.Categoty.CategoryRequestDTO;
+import com.quackfinances.quackfinances.dto.Transaction.TransactionDTO;
+import com.quackfinances.quackfinances.services.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,23 +25,23 @@ public class ExpenseTransactionStrategy implements TransactionStrategy{
     }
 
     @Override
-    public ResponseEntity<?> execute(TransactionModel transactionModel, Authentication authentication, AccountRepository repository, TransactionRepository transactionRepository, CategoryService categoryService) throws Exception {
+    public ResponseEntity<?> execute(Transaction transaction, Authentication authentication, AccountRepository repository, TransactionRepository transactionRepository, CategoryService categoryService) throws Exception {
 
-        Optional<Account> sourceAccount = repository.findById(transactionModel.getSourceAccount());
+        Optional<Account> sourceAccount = repository.findById(transaction.getSourceAccount());
         List<CategoryRequestDTO> categoryRequestDTOList = categoryService.getCategory();
 
         for (CategoryRequestDTO categoryRequestDTO: categoryRequestDTOList ) {
-            if (transactionModel.getCategory().toString().equals(categoryRequestDTO.categoryName())) {
+            if (transaction.getCategory().toString().equals(categoryRequestDTO.categoryName())) {
                 Account accountNewValue = sourceAccount.get();
                 BigDecimal accountValues = accountNewValue.getValue();
-                BigDecimal requestValue = transactionModel.getValue();
+                BigDecimal requestValue = transaction.getValue();
 
                 BigDecimal newSourceAccountValue = accountValues.subtract(requestValue);
                 accountNewValue.setValue(newSourceAccountValue);
 
                 repository.save(accountNewValue);
 
-                TransactionModel transacation = transactionRepository.save(transactionModel);
+                Transaction transacation = transactionRepository.save(transaction);
                 Optional<Account> sourceAccountTransaction =  repository.findById(transacation.getSourceAccount());
 
                 Optional<AccountCreateDTO> sourceAccountTransactionDTO = Optional.of(new AccountCreateDTO(
@@ -53,7 +53,7 @@ public class ExpenseTransactionStrategy implements TransactionStrategy{
                 TransactionDTO transactionDTO = new TransactionDTO(
                         transacation.getDescription(),
                         transacation.getValue(),
-                        transacation.getTransactionType(),
+                        transacation.getTransactionEnum(),
                         transacation.getIdentifier(),
                         sourceAccountTransactionDTO
                 );

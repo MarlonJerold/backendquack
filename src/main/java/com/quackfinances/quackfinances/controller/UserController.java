@@ -1,7 +1,7 @@
 package com.quackfinances.quackfinances.controller;
 
-import com.quackfinances.quackfinances.model.UserModel;
-import com.quackfinances.quackfinances.privates.JwtService;
+import com.quackfinances.quackfinances.model.User;
+import com.quackfinances.quackfinances.security.JwtService;
 import com.quackfinances.quackfinances.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,13 +32,13 @@ public class UserController {
     }
 
     @PostMapping
-    public UserModel createAccount(@RequestBody UserModel user) {
+    public User createAccount(@RequestBody User user) {
         if (user != null) {
 
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
 
-            UserModel newUser = repository.save(user);
+            User newUser = repository.save(user);
 
             UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                     newUser.getEmail(),

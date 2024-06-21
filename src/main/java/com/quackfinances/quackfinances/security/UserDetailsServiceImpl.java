@@ -1,4 +1,4 @@
-package com.quackfinances.quackfinances.privates;
+package com.quackfinances.quackfinances.security;
 
 import com.quackfinances.quackfinances.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;

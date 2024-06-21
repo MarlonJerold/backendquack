@@ -1,6 +1,6 @@
-package com.quackfinances.quackfinances.privates;
+package com.quackfinances.quackfinances.security;
 
-import com.quackfinances.quackfinances.model.UserModel;
+import com.quackfinances.quackfinances.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,9 +10,9 @@ import java.util.List;
 
 public class UserAuthenticated implements UserDetails {
 
-    private final UserModel user;
+    private final User user;
 
-        public UserAuthenticated(UserModel user) {
+        public UserAuthenticated(User user) {
             this.user = user;
         }
 

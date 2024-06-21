@@ -1,6 +1,4 @@
-package com.quackfinances.quackfinances.dto;
-
-import java.math.BigDecimal;
+package com.quackfinances.quackfinances.dto.Account;
 
 public record AccountTransferResponseDTO(String name, String accountType) {
 }

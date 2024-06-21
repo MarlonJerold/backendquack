@@ -1,4 +1,4 @@
-package com.quackfinances.quackfinances.privates;
+package com.quackfinances.quackfinances.security;
 
 import org.springframework.web.bind.annotation.RestController;
 

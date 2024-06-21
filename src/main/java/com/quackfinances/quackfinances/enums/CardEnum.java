@@ -1,6 +1,6 @@
 package com.quackfinances.quackfinances.enums;
 
-public enum CardType {
+public enum CardEnum {
     CREDIT,
     DEBIT
 }

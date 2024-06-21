@@ -6,8 +6,8 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@Entity(name = "user_model")
-public class UserModel {
+@Entity(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class UserModel {
     private Date createDate;
     private Date updateData;
 
-    public UserModel(Integer id, String email, String password, String name, Date createDate, Date updateData) {
+    public User(Integer id, String email, String password, String name, Date createDate, Date updateData) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -27,7 +27,7 @@ public class UserModel {
         this.updateData = updateData;
     }
 
-    public UserModel() {
+    public User() {
 
     }
 

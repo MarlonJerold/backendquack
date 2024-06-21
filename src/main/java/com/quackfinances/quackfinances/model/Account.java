@@ -1,8 +1,8 @@
 package com.quackfinances.quackfinances.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.quackfinances.quackfinances.enums.AccountType;
-import com.quackfinances.quackfinances.dto.AccountUserLoginDTO;
+import com.quackfinances.quackfinances.dto.Account.AccountUserLoginDTO;
+import com.quackfinances.quackfinances.enums.AccountEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -26,14 +26,14 @@ public class Account {
     private Timestamp createDate;
     @Column(name = "update_date")
     private Date updateData;
-    private AccountType type;
+    private AccountEnum type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private UserModel user;
+    private User user;
 
-    public Account(Integer id, String name, BigDecimal value, Timestamp createDate, Date updateDate, AccountType type) {
+    public Account(Integer id, String name, BigDecimal value, Timestamp createDate, Date updateDate, AccountEnum type) {
         this.id = id;
         this.name = name;
         this.value = value;
@@ -85,19 +85,19 @@ public class Account {
         this.updateData = updateData;
     }
 
-    public AccountType getType() {
+    public AccountEnum getType() {
         return type;
     }
 
-    public void setType(AccountType type) {
+    public void setType(AccountEnum type) {
         this.type = type;
     }
 
-    public UserModel getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserModel user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

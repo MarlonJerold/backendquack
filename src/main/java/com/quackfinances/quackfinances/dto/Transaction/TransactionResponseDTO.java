@@ -1,13 +1,14 @@
-package com.quackfinances.quackfinances.dto;
+package com.quackfinances.quackfinances.dto.Transaction;
 
-import com.quackfinances.quackfinances.enums.TransactionType;
+import com.quackfinances.quackfinances.dto.Account.AccountTransferResponseDTO;
+import com.quackfinances.quackfinances.enums.TransactionEnum;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
 public record TransactionResponseDTO(String description,
                                      BigDecimal value,
-                                     TransactionType transactionType,
+                                     TransactionEnum transactionEnum,
                                      String identifier,
                                      Optional<AccountTransferResponseDTO> sourceAccount,
                                      Optional<AccountTransferResponseDTO> destinationAccount,

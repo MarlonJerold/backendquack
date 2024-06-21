@@ -1,4 +1,4 @@
-package com.quackfinances.quackfinances.privates;
+package com.quackfinances.quackfinances.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

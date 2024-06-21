@@ -1,13 +1,12 @@
 package com.quackfinances.quackfinances.services.service.impl;
 
-import com.quackfinances.quackfinances.model.Account;
-import com.quackfinances.quackfinances.enums.AccountType;
-import com.quackfinances.quackfinances.model.UserModel;
+import com.quackfinances.quackfinances.enums.AccountEnum;
+import com.quackfinances.quackfinances.model.User;
 import com.quackfinances.quackfinances.repository.AccountRepository;
 import com.quackfinances.quackfinances.repository.UserRepository;
-import com.quackfinances.quackfinances.services.service.AccountServiceInterface;
-import com.quackfinances.quackfinances.dto.AccountCreateDTO;
-import com.quackfinances.quackfinances.dto.AccountUserLoginDTO;
+import com.quackfinances.quackfinances.services.service.AccountService;
+import com.quackfinances.quackfinances.dto.Account.AccountCreateDTO;
+import com.quackfinances.quackfinances.dto.Account.AccountUserLoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AccountServiceImpl implements AccountServiceInterface {
+public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountRepository accountRepository;
@@ -31,10 +30,10 @@ public class AccountServiceImpl implements AccountServiceInterface {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
 
-        List<Account> accountList = accountRepository.findAll();
-        List<Account> accounts = new ArrayList<>();
+        List<com.quackfinances.quackfinances.model.Account> accountList = accountRepository.findAll();
+        List<com.quackfinances.quackfinances.model.Account> accounts = new ArrayList<>();
 
-        for (Account account : accountList) {
+        for (com.quackfinances.quackfinances.model.Account account : accountList) {
             if (account != null && account.getUser() != null && account.getUser().getName() != null) {
                 if (account.getUser().getEmail().equals(userId)) {
                     accounts.add(account);
@@ -44,7 +43,7 @@ public class AccountServiceImpl implements AccountServiceInterface {
 
         List<AccountUserLoginDTO> accountDTOs = new ArrayList<>();
 
-        for (Account account : accounts) {
+        for (com.quackfinances.quackfinances.model.Account account : accounts) {
             AccountUserLoginDTO accountDTO = new AccountUserLoginDTO(account.getId(), account.getName(), account.getValue(), account.getCreateDate().toString(), account.getType());
             accountDTOs.add(accountDTO);
         }
@@ -52,24 +51,24 @@ public class AccountServiceImpl implements AccountServiceInterface {
     }
 
     @Override
-    public List<Account> getAll() throws NullPointerException {
-        List<Account> accountList = accountRepository.findAll();
+    public List<com.quackfinances.quackfinances.model.Account> getAll() throws NullPointerException {
+        List<com.quackfinances.quackfinances.model.Account> accountList = accountRepository.findAll();
         return accountList;
     }
 
     @Override
-    public Account createAccount(AccountCreateDTO account) {
+    public com.quackfinances.quackfinances.model.Account createAccount(AccountCreateDTO account) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String user = authentication.getName();
 
-        AccountType accountType = AccountType.valueOf (account.accountType());
+        AccountEnum accountEnumType = AccountEnum.valueOf (account.accountType());
 
         if (account != null) {
-            Optional<UserModel> userBusca = userRepository.findByEmail(user);
-            Account accountEntity = new Account();
+            Optional<User> userBusca = userRepository.findByEmail(user);
+            com.quackfinances.quackfinances.model.Account accountEntity = new com.quackfinances.quackfinances.model.Account();
             accountEntity.setName(account.name());
             accountEntity.setUser(userBusca.get());
-            accountEntity.setType(accountType);
+            accountEntity.setType(accountEnumType);
 
             if (account.accountType() == null) {
                 System.out.println("Deu erro aqui");

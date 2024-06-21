@@ -1,14 +1,14 @@
 package com.quackfinances.quackfinances.services.service;
 
 import com.quackfinances.quackfinances.model.Account;
-import com.quackfinances.quackfinances.dto.AccountCreateDTO;
-import com.quackfinances.quackfinances.dto.AccountUserLoginDTO;
+import com.quackfinances.quackfinances.dto.Account.AccountCreateDTO;
+import com.quackfinances.quackfinances.dto.Account.AccountUserLoginDTO;
 
 
 import java.util.List;
 
 
-public interface AccountServiceInterface {
+public interface AccountService {
 
     List<AccountUserLoginDTO> getAccountUserLogin();
     List<Account> getAll();

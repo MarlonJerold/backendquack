@@ -1,4 +1,4 @@
-package com.quackfinances.quackfinances.dto;
+package com.quackfinances.quackfinances.dto.Card;
 
 import java.math.BigDecimal;
 
