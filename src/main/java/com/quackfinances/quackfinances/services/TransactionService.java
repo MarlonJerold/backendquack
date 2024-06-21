@@ -88,7 +88,7 @@ public class TransactionService {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public Object transaction (TransactionModel transactionModel) throws Exception, AccountNotFoundException, PermissionDeniedException, InsufficientBalanceException {
+    public Object transaction(TransactionModel transactionModel) throws Exception, AccountNotFoundException, PermissionDeniedException, InsufficientBalanceException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<Account> sourceAccount = repository.findById(transactionModel.getSourceAccount());
         TransactionStrategy transactionStrategy = new TransferTransactionStrategy();
@@ -104,7 +104,6 @@ public class TransactionService {
 
             if (transactionModel.getTransactionType() == TransactionType.EXPENSE) {
                 if (sourceAccount.isPresent() && sourceAccount.get().getUser() != null && sourceAccount.get().getUser().getEmail().equals(authentication.getName())) {
-
                     ExpenseTransactionStrategy expenseTransactionStrategy;
                     expenseTransactionStrategy = new  ExpenseTransactionStrategy(categoryService);
                     return expenseTransactionStrategy.execute(transactionModel, authentication, repository, transactionRepository, categoryService);
