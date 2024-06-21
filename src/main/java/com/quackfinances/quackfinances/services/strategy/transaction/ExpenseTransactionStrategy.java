@@ -1,4 +1,4 @@
-package com.quackfinances.quackfinances.services.strategy;
+package com.quackfinances.quackfinances.services.strategy.transaction;
 
 import com.quackfinances.quackfinances.model.Account;
 import com.quackfinances.quackfinances.model.Transaction;
@@ -10,7 +10,6 @@ import com.quackfinances.quackfinances.dto.Transaction.TransactionDTO;
 import com.quackfinances.quackfinances.services.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,8 +23,9 @@ public class ExpenseTransactionStrategy implements TransactionStrategy{
         this.categoryService = categoryService;
     }
 
+
     @Override
-    public ResponseEntity<?> execute(Transaction transaction, Authentication authentication, AccountRepository repository, TransactionRepository transactionRepository, CategoryService categoryService) throws Exception {
+    public ResponseEntity<?> execute(Transaction transaction, AccountRepository repository, TransactionRepository transactionRepository) throws Exception {
 
         Optional<Account> sourceAccount = repository.findById(transaction.getSourceAccount());
         List<CategoryRequestDTO> categoryRequestDTOList = categoryService.getCategory();

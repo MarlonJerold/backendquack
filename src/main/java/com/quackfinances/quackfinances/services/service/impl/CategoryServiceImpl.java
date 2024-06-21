@@ -51,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryRequestDTO> getCategory() {
+
         List<Category> categoryList = categoryRepository.findAll();
         List<CategoryRequestDTO> categoryRequestDTOS = new ArrayList<>();
 
@@ -61,6 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
             );
             categoryRequestDTOS.add(categoryRequestDTO);
         }
+
         return categoryRequestDTOS;
     }
 }

@@ -18,9 +18,9 @@ import com.quackfinances.quackfinances.repository.TransactionRepository;
 import com.quackfinances.quackfinances.services.service.AccountService;
 import com.quackfinances.quackfinances.services.service.CategoryService;
 import com.quackfinances.quackfinances.services.service.TransactionService;
-import com.quackfinances.quackfinances.services.strategy.ExpenseTransactionStrategy;
-import com.quackfinances.quackfinances.services.strategy.TransactionStrategy;
-import com.quackfinances.quackfinances.services.strategy.TransferTransactionStrategy;
+import com.quackfinances.quackfinances.services.strategy.transaction.ExpenseTransactionStrategy;
+import com.quackfinances.quackfinances.services.strategy.transaction.TransactionStrategy;
+import com.quackfinances.quackfinances.services.strategy.transaction.TransferTransactionStrategy;
 import com.quackfinances.quackfinances.utils.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -95,35 +95,56 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Object transaction( Transaction transaction ) throws Exception, AccountNotFoundException, PermissionDeniedException, InsufficientBalanceException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Optional<Account> sourceAccount = repository.findById(transaction.getSourceAccount());
-        TransactionStrategy transactionStrategy = new TransferTransactionStrategy();
-
+    public Object transaction(Transaction transaction) {
         try {
-            if (sourceAccount.isEmpty()) throw new AccountNotFoundException();
+            Optional<Account> sourceAccount = findSourceAccount(transaction);
+            TransactionStrategy transactionStrategy = determineTransactionStrategy(transaction);
 
-            if (!sourceAccount.get().getUser().getEmail().equals(authentication.getName())) throw new PermissionDeniedException();
+            return transactionStrategy != null ?
+                    executeTransactionStrategy(transactionStrategy, transaction, sourceAccount) :
+                    ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Tipo de transação indisponível");
 
-            if (transaction.getTransactionEnum() == TransactionEnum.TRANSFER) {
-                transactionStrategy = new TransferTransactionStrategy();
-            }
-
-            if (transaction.getTransactionEnum() == TransactionEnum.EXPENSE) {
-                if (sourceAccount.isPresent() && sourceAccount.get().getUser() != null && sourceAccount.get().getUser().getEmail().equals(authentication.getName())) {
-                    ExpenseTransactionStrategy expenseTransactionStrategy;
-                    expenseTransactionStrategy = new  ExpenseTransactionStrategy(categoryService);
-                    return expenseTransactionStrategy.execute(transaction, authentication, repository, transactionRepository, categoryService);
-
-                } else {
-                    throw new Exception("ID da conta não faz parte das contas do usuário");
-                }
-            }
-            return transactionStrategy.execute(transaction, authentication, repository, transactionRepository, categoryService);
-
-        } catch (AccountNotFoundException | PermissionDeniedException | InsufficientBalanceException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
+            return handleTransactionException(e);
+        }
+    }
+
+    private Optional<Account> findSourceAccount(Transaction transaction) throws Exception {
+        Optional<Account> sourceAccount = repository.findById(transaction.getSourceAccount());
+        if (sourceAccount.isEmpty()) throw new AccountNotFoundException();
+        if (!sourceAccount.get().getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) throw new PermissionDeniedException();
+        return sourceAccount;
+    }
+
+    private TransactionStrategy determineTransactionStrategy(Transaction transaction) {
+        switch (transaction.getTransactionEnum()) {
+            case TRANSFER:
+                return new TransferTransactionStrategy();
+            case EXPENSE:
+                return new ExpenseTransactionStrategy(categoryService);
+            default:
+                return null;
+        }
+    }
+
+    private Object executeTransactionStrategy(TransactionStrategy strategy, Transaction transaction, Optional<Account> sourceAccount) throws Exception {
+        if (strategy instanceof TransferTransactionStrategy) {
+            return strategy.execute(transaction, repository, transactionRepository);
+        } else if (strategy instanceof ExpenseTransactionStrategy) {
+            if (sourceAccount.isPresent() && sourceAccount.get().getUser() != null && sourceAccount.get().getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+                return strategy.execute(transaction, repository, transactionRepository);
+            } else {
+                throw new Exception("ID da conta não faz parte das contas do usuário");
+            }
+        } else {
+            throw new Exception("Estratégia de transação não suportada");
+        }
+    }
+
+    private ResponseEntity<Object> handleTransactionException(Exception e) {
+        if (e instanceof AccountNotFoundException || e instanceof PermissionDeniedException || e instanceof InsufficientBalanceException) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } else {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro durante a transação");
         }
