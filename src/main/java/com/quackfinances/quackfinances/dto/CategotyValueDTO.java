@@ -1,4 +1,4 @@
-package com.quackfinances.quackfinances.view.controller.dto;
+package com.quackfinances.quackfinances.dto;
 
 public record CategotyValueDTO(String category, Double value) {
 }

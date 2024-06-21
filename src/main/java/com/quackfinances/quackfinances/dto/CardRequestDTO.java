@@ -1,6 +1,4 @@
-package com.quackfinances.quackfinances.view.controller.dto;
-
-import com.quackfinances.quackfinances.model.CardType;
+package com.quackfinances.quackfinances.dto;
 
 import java.math.BigDecimal;
 

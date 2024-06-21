@@ -1,6 +1,6 @@
-package com.quackfinances.quackfinances.view.controller.dto;
+package com.quackfinances.quackfinances.dto;
 
-import com.quackfinances.quackfinances.model.AccountType;
+import com.quackfinances.quackfinances.enums.AccountType;
 
 import java.math.BigDecimal;
 

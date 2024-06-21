@@ -1,7 +1,8 @@
 package com.quackfinances.quackfinances.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.quackfinances.quackfinances.view.controller.dto.AccountUserLoginDTO;
+import com.quackfinances.quackfinances.enums.AccountType;
+import com.quackfinances.quackfinances.dto.AccountUserLoginDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 

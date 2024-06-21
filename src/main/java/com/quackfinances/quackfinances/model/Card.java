@@ -1,6 +1,7 @@
 package com.quackfinances.quackfinances.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.quackfinances.quackfinances.enums.CardType;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,6 +31,7 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     @Column(name = "amount")
     private BigDecimal value;
 
@@ -50,6 +52,7 @@ public class Card {
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private UserModel user;
+
     private String bankName;
 
     public String getBankName() {

@@ -1,4 +1,4 @@
-package com.quackfinances.quackfinances.view.controller;
+package com.quackfinances.quackfinances.controller;
 
 import com.quackfinances.quackfinances.model.UserModel;
 import com.quackfinances.quackfinances.privates.JwtService;

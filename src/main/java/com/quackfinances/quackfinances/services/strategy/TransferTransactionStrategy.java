@@ -7,7 +7,7 @@ import com.quackfinances.quackfinances.model.TransactionModel;
 import com.quackfinances.quackfinances.repository.AccountRepository;
 import com.quackfinances.quackfinances.repository.TransactionRepository;
 import com.quackfinances.quackfinances.services.CategoryService;
-import com.quackfinances.quackfinances.view.controller.dto.AccountUserLoginDTO;
+import com.quackfinances.quackfinances.dto.AccountUserLoginDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

@@ -1,9 +1,8 @@
 package com.quackfinances.quackfinances.services.service;
 
 import com.quackfinances.quackfinances.model.Account;
-import com.quackfinances.quackfinances.view.controller.dto.AccountCreateDTO;
-import com.quackfinances.quackfinances.view.controller.dto.AccountUserLoginDTO;
-import org.springframework.stereotype.Service;
+import com.quackfinances.quackfinances.dto.AccountCreateDTO;
+import com.quackfinances.quackfinances.dto.AccountUserLoginDTO;
 
 
 import java.util.List;

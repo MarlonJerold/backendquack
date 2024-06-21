@@ -1,13 +1,13 @@
 package com.quackfinances.quackfinances.services.service.impl;
 
 import com.quackfinances.quackfinances.model.Card;
-import com.quackfinances.quackfinances.model.CardType;
+import com.quackfinances.quackfinances.enums.CardType;
 import com.quackfinances.quackfinances.model.UserModel;
 import com.quackfinances.quackfinances.repository.CardRepository;
 import com.quackfinances.quackfinances.repository.UserRepository;
 import com.quackfinances.quackfinances.services.service.CardServiceInterface;
-import com.quackfinances.quackfinances.view.controller.dto.CardRequestDTO;
-import com.quackfinances.quackfinances.view.controller.dto.CardResponseDTO;
+import com.quackfinances.quackfinances.dto.CardRequestDTO;
+import com.quackfinances.quackfinances.dto.CardResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

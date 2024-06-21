@@ -1,4 +1,4 @@
-package com.quackfinances.quackfinances.model;
+package com.quackfinances.quackfinances.enums;
 
 public enum CardType {
     CREDIT,

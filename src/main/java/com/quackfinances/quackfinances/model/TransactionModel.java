@@ -1,5 +1,6 @@
 package com.quackfinances.quackfinances.model;
 
+import com.quackfinances.quackfinances.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Entity(name = "transaction")
 public class TransactionModel implements Serializable {
 
-    public TransactionModel(Integer id, String description, BigDecimal value, LocalDateTime createDate, LocalDateTime updateData, Account account, TransactionType transactionType, String identifier,Integer sourceAccountId, Integer destinationAccountId, String category ) {
+    public TransactionModel(Integer id, String description, BigDecimal value, LocalDateTime createDate, LocalDateTime updateData, Account account, TransactionType transactionType, String identifier, Integer sourceAccountId, Integer destinationAccountId, String category ) {
         this.id = id;
         this.description = description;
         this.value = value;

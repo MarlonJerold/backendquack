@@ -1,12 +1,13 @@
-package com.quackfinances.quackfinances.view.controller.dto;
+package com.quackfinances.quackfinances.dto;
+
+import com.quackfinances.quackfinances.enums.TransactionType;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 public record TransactionResponseDTO(String description,
                                      BigDecimal value,
-                                     com.quackfinances.quackfinances.model.TransactionType transactionType,
+                                     TransactionType transactionType,
                                      String identifier,
                                      Optional<AccountTransferResponseDTO> sourceAccount,
                                      Optional<AccountTransferResponseDTO> destinationAccount,

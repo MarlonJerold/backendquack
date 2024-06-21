@@ -1,7 +1,7 @@
-package com.quackfinances.quackfinances.view.controller;
+package com.quackfinances.quackfinances.controller;
 
+import com.quackfinances.quackfinances.dto.CategoryRequestDTO;
 import com.quackfinances.quackfinances.services.CategoryService;
-import com.quackfinances.quackfinances.view.controller.dto.CategoryRequestDTO;
 
 import org.springframework.web.bind.annotation.*;
 

@@ -1,11 +1,14 @@
 package com.quackfinances.quackfinances.services;
 
+import com.quackfinances.quackfinances.controller.dto.*;
+import com.quackfinances.quackfinances.dto.*;
 import com.quackfinances.quackfinances.exceptions.AccountNotFoundException;
 import com.quackfinances.quackfinances.exceptions.InsufficientBalanceException;
 import com.quackfinances.quackfinances.exceptions.PermissionDeniedException;
 import com.quackfinances.quackfinances.model.Account;
 import com.quackfinances.quackfinances.model.TransactionModel;
-import com.quackfinances.quackfinances.model.TransactionType;
+import com.quackfinances.quackfinances.model.dto.*;
+import com.quackfinances.quackfinances.enums.TransactionType;
 import com.quackfinances.quackfinances.repository.AccountRepository;
 import com.quackfinances.quackfinances.repository.TransactionRepository;
 import com.quackfinances.quackfinances.services.service.AccountServiceInterface;
@@ -13,7 +16,6 @@ import com.quackfinances.quackfinances.services.strategy.ExpenseTransactionStrat
 import com.quackfinances.quackfinances.services.strategy.TransactionStrategy;
 import com.quackfinances.quackfinances.services.strategy.TransferTransactionStrategy;
 import com.quackfinances.quackfinances.utils.DateTimeUtils;
-import com.quackfinances.quackfinances.view.controller.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

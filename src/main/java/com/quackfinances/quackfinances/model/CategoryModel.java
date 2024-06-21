@@ -1,12 +1,12 @@
 package com.quackfinances.quackfinances.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.quackfinances.quackfinances.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Data
 @Entity(name = "category")

@@ -1,7 +1,7 @@
 package com.quackfinances.quackfinances.services.service;
 
-import com.quackfinances.quackfinances.view.controller.dto.CardRequestDTO;
-import com.quackfinances.quackfinances.view.controller.dto.CardResponseDTO;
+import com.quackfinances.quackfinances.dto.CardRequestDTO;
+import com.quackfinances.quackfinances.dto.CardResponseDTO;
 
 import java.util.List;
 

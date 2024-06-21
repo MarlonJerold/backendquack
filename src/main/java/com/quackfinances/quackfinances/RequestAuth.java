@@ -1,4 +1,4 @@
-package com.quackfinances.quackfinances.view;
+package com.quackfinances.quackfinances;
 
 public class RequestAuth {
     private String email;
@@ -12,7 +12,6 @@ public class RequestAuth {
         this.password = password;
     }
 
-    // Getters e setters
     public String getEmail() {
         return email;
     }

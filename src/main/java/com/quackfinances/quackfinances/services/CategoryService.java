@@ -1,11 +1,11 @@
 package com.quackfinances.quackfinances.services;
 
 import com.quackfinances.quackfinances.model.CategoryModel;
-import com.quackfinances.quackfinances.model.TransactionType;
+import com.quackfinances.quackfinances.enums.TransactionType;
 import com.quackfinances.quackfinances.model.UserModel;
 import com.quackfinances.quackfinances.repository.CategoryRepository;
 import com.quackfinances.quackfinances.repository.UserRepository;
-import com.quackfinances.quackfinances.view.controller.dto.CategoryRequestDTO;
+import com.quackfinances.quackfinances.dto.CategoryRequestDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
