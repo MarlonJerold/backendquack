@@ -1,13 +1,11 @@
 package com.quackfinances.quackfinances.services;
 
-import com.quackfinances.quackfinances.controller.dto.*;
 import com.quackfinances.quackfinances.dto.*;
 import com.quackfinances.quackfinances.exceptions.AccountNotFoundException;
 import com.quackfinances.quackfinances.exceptions.InsufficientBalanceException;
 import com.quackfinances.quackfinances.exceptions.PermissionDeniedException;
 import com.quackfinances.quackfinances.model.Account;
 import com.quackfinances.quackfinances.model.TransactionModel;
-import com.quackfinances.quackfinances.model.dto.*;
 import com.quackfinances.quackfinances.enums.TransactionType;
 import com.quackfinances.quackfinances.repository.AccountRepository;
 import com.quackfinances.quackfinances.repository.TransactionRepository;
