@@ -17,7 +17,7 @@ import java.util.UUID;
 @Entity(name = "transaction")
 public class Transaction implements Serializable {
 
-    public Transaction(Integer id, String description, BigDecimal value, LocalDateTime createDate, LocalDateTime updateData, Account account, TransactionEnum transactionEnum, String identifier, Integer sourceAccountId, Integer destinationAccountId, String category ) {
+    public Transaction(Integer id, String description, BigDecimal value, LocalDateTime createDate, LocalDateTime updateData, Account account, TransactionEnum transactionEnum, String identifier, Integer sourceAccountId, Integer destinationAccountId, String category, Integer installments ) {
         this.id = id;
         this.description = description;
         this.value = value;
@@ -29,6 +29,7 @@ public class Transaction implements Serializable {
         this.sourceAccountId = sourceAccountId;
         this.destinationAccountId = destinationAccountId;
         this.category = category;
+        this.installments = installments;
     }
 
     public Transaction() {
@@ -67,6 +68,7 @@ public class Transaction implements Serializable {
     private String identifier;
     private Integer accountId;
 
+    private Integer installments;
     Integer sourceAccountId;
     Integer destinationAccountId;
 
@@ -202,4 +204,13 @@ public class Transaction implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public Integer getInstallments() {
+        return installments;
+    }
+
+    public void setInstallments(Integer installments) {
+        this.installments = installments;
+    }
+
 }

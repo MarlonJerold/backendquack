@@ -1,17 +1,21 @@
 package com.quackfinances.quackfinances.services.service.impl;
 
 import com.quackfinances.quackfinances.enums.CardEnum;
+import com.quackfinances.quackfinances.model.Card;
 import com.quackfinances.quackfinances.model.User;
 import com.quackfinances.quackfinances.repository.CardRepository;
 import com.quackfinances.quackfinances.repository.UserRepository;
 import com.quackfinances.quackfinances.services.service.CardService;
 import com.quackfinances.quackfinances.dto.Card.CardRequestDTO;
 import com.quackfinances.quackfinances.dto.Card.CardResponseDTO;
+import com.quackfinances.quackfinances.utils.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,36 +28,64 @@ public class CardServiceImpl implements CardService {
 
     @Autowired
     private CardRepository cardRepository;
+    private DateTimeFormatter dateTimeFormatter = DateTimeUtils.FORMATTER;
 
     @Override
     public CardResponseDTO createCard(CardRequestDTO cardRequestDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String user = authentication.getName();
-        CardEnum accountType = CardEnum.valueOf (String.valueOf(cardRequestDTO.cardType()));
+        CardEnum accountType = CardEnum.valueOf(cardRequestDTO.cardType().toUpperCase());
 
         if (cardRequestDTO != null) {
 
             Optional<User> userBusca = userRepository.findByEmail(user);
 
-            com.quackfinances.quackfinances.model.Card card = new com.quackfinances.quackfinances.model.Card();
-            card.setCardName(cardRequestDTO.name());
-            card.setCardEnum(accountType);
-            card.setValue(cardRequestDTO.value());
-            card.setValueUsed(cardRequestDTO.valueUsed());
-            card.setUser(userBusca.get());
-            card.setBankaName(cardRequestDTO.bankName());
+            if (accountType == CardEnum.DEBIT) {
+                Card card = new Card.Builder()
+                        .withCardName(cardRequestDTO.name())
+                        .withCardEnum(CardEnum.DEBIT)
+                        .withCurrentValue(cardRequestDTO.value())
+                        .withValueUsed(cardRequestDTO.valueUsed())
+                        .withUser(userBusca.get())
+                        .build();
 
-            com.quackfinances.quackfinances.model.Card cardSave = cardRepository.save(card);
+                Card cardSave = cardRepository.save(card);
 
-            CardResponseDTO cardDTO = new CardResponseDTO(
-                    cardSave.getCardName(),
-                    cardRequestDTO.cardType(),
-                    cardSave.getValue(),
-                    cardSave.getValueUsed(),
-                    cardSave.getBankName().toString()
-            );
+                CardResponseDTO cardDTO = new CardResponseDTO(
+                        cardSave.getCardName(),
+                        cardRequestDTO.cardType(),
+                        cardSave.getCurrentValue(),
+                        cardSave.getValueUsed(),
+                        cardSave.getBankName().toString()
+                );
 
-            return cardDTO;
+                return cardDTO;
+            }
+
+            if (accountType == CardEnum.CREDIT) {
+                Card card = new Card.Builder()
+                        .withCardName(cardRequestDTO.name())
+                        .withCardEnum(CardEnum.CREDIT)
+                        .withInvoiceDate(LocalDate.parse(cardRequestDTO.invoiceDate(), dateTimeFormatter))
+                        .withCurrentValue(cardRequestDTO.value())
+                        .withValueUsed(cardRequestDTO.valueUsed())
+                        .withBankName(cardRequestDTO.bankName())
+                        .withUser(userBusca.get())
+                        .build();
+
+                Card cardSave = cardRepository.save(card);
+
+                CardResponseDTO cardDTO = new CardResponseDTO(
+                        cardSave.getCardName(),
+                        cardRequestDTO.cardType(),
+                        cardSave.getCurrentValue(),
+                        cardSave.getValueUsed(),
+                        cardSave.getBankName().toString(),
+                        cardSave.getInvoiceDate()
+                );
+
+                return cardDTO;
+            }
 
         } return null;
     }
@@ -77,7 +109,7 @@ public class CardServiceImpl implements CardService {
         List<CardResponseDTO> cardDTOs = new ArrayList<>();
 
         for (com.quackfinances.quackfinances.model.Card card : accounts) {
-            CardResponseDTO accountDTO = new CardResponseDTO(card.getCardName(), card.getCardEnum().toString(), card.getValue(), card.getValueUsed(), card.getBankName());
+            CardResponseDTO accountDTO = new CardResponseDTO(card.getCardName(), card.getCardEnum().toString(), card.getCurrentValue(), card.getValueUsed(), card.getBankName());
             cardDTOs.add(accountDTO);
         }
 

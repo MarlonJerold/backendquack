@@ -8,32 +8,34 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @Entity(name = "card")
 public class Card {
 
-    public Card(CardEnum cardEnum, LocalDateTime createDate, Integer id, LocalDateTime updateData, BigDecimal value, BigDecimal valueUsed, String cardName, User user, String bankName) {
+    public Card(CardEnum cardEnum, LocalDateTime createDate, Integer id, LocalDateTime updateData, BigDecimal currentValue, BigDecimal valueUsed, String cardName, User user, String bankName) {
         this.cardEnum = cardEnum;
         this.createDate = createDate;
         this.id = id;
         this.updateData = updateData;
-        this.value = value;
+        this.currentValue = currentValue;
         this.valueUsed = valueUsed;
         this.cardName = cardName;
         this.user = user;
         this.bankName = bankName;
     }
 
-    public Card(){}
+    public Card() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "amount")
-    private BigDecimal value;
+    private BigDecimal currentValue;
 
     @CreationTimestamp
     private LocalDateTime createDate;
@@ -52,8 +54,90 @@ public class Card {
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
-
     private String bankName;
+
+    private LocalDate invoiceDate;
+
+    public Card(Builder builder) {
+    }
+
+    public static class Builder {
+        private Integer id;
+        private BigDecimal currentValue;
+        private LocalDateTime createDate;
+        private String cardName;
+        private BigDecimal valueUsed;
+        private LocalDateTime updateData;
+        private CardEnum cardEnum;
+        private User user;
+        private String bankName;
+        private LocalDate invoiceDate;
+
+        public Builder() {
+        }
+
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withCurrentValue(BigDecimal currentValue) {
+            this.currentValue = currentValue;
+            return this;
+        }
+
+        public Builder withCreateDate(LocalDateTime createDate) {
+            this.createDate = createDate;
+            return this;
+        }
+
+        public Builder withCardName(String cardName) {
+            this.cardName = cardName;
+            return this;
+        }
+
+        public Builder withValueUsed(BigDecimal valueUsed) {
+            this.valueUsed = valueUsed;
+            return this;
+        }
+
+        public Builder withUpdateData(LocalDateTime updateData) {
+            this.updateData = updateData;
+            return this;
+        }
+
+        public Builder withCardEnum(CardEnum cardEnum) {
+            this.cardEnum = cardEnum;
+            return this;
+        }
+
+        public Builder withUser(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder withBankName(String bankName) {
+            this.bankName = bankName;
+            return this;
+        }
+
+        public Builder withInvoiceDate(LocalDate invoiceDate) {
+            this.invoiceDate = invoiceDate;
+            return this;
+        }
+
+        public Card build() {
+            return new Card(this);
+        }
+    }
+
+    public LocalDate getInvoiceDate() {
+        return invoiceDate;
+    }
+
+    public void setInvoiceDate(LocalDate invoiceDate) {
+        this.invoiceDate = invoiceDate;
+    }
 
     public String getBankName() {
         return bankName;
@@ -64,7 +148,6 @@ public class Card {
         return this;
     }
 
-
     public User getUser() {
         return user;
     }
@@ -74,12 +157,12 @@ public class Card {
         return this;
     }
 
-    public BigDecimal getValue() {
-        return value;
+    public BigDecimal getCurrentValue() {
+        return currentValue;
     }
 
-    public Card setValue(BigDecimal value) {
-        this.value = value;
+    public Card setCurrentValue(BigDecimal currentValue) {
+        this.currentValue = currentValue;
         return this;
     }
 
@@ -136,6 +219,5 @@ public class Card {
         this.cardEnum = cardEnum;
         return this;
     }
-
 
 }

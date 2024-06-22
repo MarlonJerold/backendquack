@@ -17,7 +17,6 @@ public interface TransactionService {
     List<TransactionResponseDTO> getListTransactions();
     Object transaction(Transaction transaction) throws Exception, AccountNotFoundException, PermissionDeniedException, InsufficientBalanceException;
     Optional<AccountTransferResponseDTO> getAccountTransferResponseDTOById(Integer accountId);
-    TransactionDTO transactionExpense(Transaction transaction);
     BigDecimal totalAccountValue();
     List<CategotyValueDTO> consultegoriaCatedoriasValue ();
 }

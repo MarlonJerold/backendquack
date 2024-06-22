@@ -23,7 +23,6 @@ public class ExpenseTransactionStrategy implements TransactionStrategy{
         this.categoryService = categoryService;
     }
 
-
     @Override
     public ResponseEntity<?> execute(Transaction transaction, AccountRepository repository, TransactionRepository transactionRepository) throws Exception {
 
