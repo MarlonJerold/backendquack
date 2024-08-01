@@ -14,8 +14,11 @@ import java.util.List;
 @RestController
 public class AccountController {
 
-    @Autowired(required = false)
-    private AccountService accountService;
+    private final AccountService accountService;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Account>> getAll(){
